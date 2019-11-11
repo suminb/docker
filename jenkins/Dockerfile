@@ -2,8 +2,6 @@
 FROM jenkins/jenkins:lts
 
 ENV PYTHON_VERSION 3.7.5
-# Number of processors
-ENV NPROC 4
 
 USER root
 RUN apt update
@@ -17,7 +15,7 @@ RUN curl -O https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VER
     tar -xf Python-$PYTHON_VERSION.tar.xz
 RUN cd Python-$PYTHON_VERSION && \
      ./configure --enable-optimizations --enable-loadable-sqlite-extensions && \
-    make -j $NPROC && \
+    make -j $(nproc) && \
     make altinstall
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
